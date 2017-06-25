@@ -4,11 +4,17 @@ Self-Driving Car Engineer Nanodegree Program
 ---
 
 ## Reflection
-* fine tune parameters by hand
+* PID
+  * P component plays central role in the controller. It gives a command proportional to error such that the car can drive to right track
+  * I component helps to correct system error
+  * D component helps to reduce overshooting 
+* Fine tune parameters by hand
   * first make three parameters small enough such that the total error for steering angle stay with [-1, 1] most of the time
   * tune Ki to make average cte close to 0
   * tune Kp and Kd to make the car less oscillate on the road
 
+* Final parameters:
+  * [0.2, 0.004, 0.03]
 
 ## Dependencies
 
