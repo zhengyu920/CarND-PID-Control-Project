@@ -12,6 +12,8 @@ constexpr double pi() { return M_PI; }
 double deg2rad(double x) { return x * pi() / 180; }
 double rad2deg(double x) { return x * 180 / pi(); }
 
+constexpr double max_steer_value = 1;
+
 // Checks if the SocketIO event has JSON data.
 // If there is data the JSON object in string format will be returned,
 // else the empty string "" will be returned.
@@ -34,7 +36,7 @@ int main()
 
   PID pid;
   // TODO: Initialize the pid variable.
-  pid.Init(0.3, 0.04, 3.0);
+  pid.Init(0.2, 0.004, 0.03);
   h.onMessage([&pid](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
     // The 4 signifies a websocket message
@@ -59,8 +61,19 @@ int main()
           */
           pid.UpdateError(cte);
           steer_value = pid.TotalError();
+
           // DEBUG
-          std::cout << "CTE: " << cte << " Steering Value: " << steer_value << std::endl;
+          std::cout << "CTE: " << cte << std::endl;
+          std::cout << "Total error: " << steer_value << std::endl;
+          pid.PrintError();
+
+
+          // normalize to one
+          if (steer_value > max_steer_value) {
+            steer_value = max_steer_value;
+          } else if (steer_value < -max_steer_value) {
+            steer_value = -max_steer_value;
+          }
 
           json msgJson;
           msgJson["steering_angle"] = steer_value;

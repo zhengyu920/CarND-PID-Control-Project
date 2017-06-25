@@ -1,6 +1,10 @@
 #ifndef PID_H
 #define PID_H
 
+#include <vector>
+#include <ctime>
+#include <iostream>
+
 class PID {
 public:
   /*
@@ -9,6 +13,7 @@ public:
   double p_error;
   double i_error;
   double d_error;
+  double pre_time;
 
   /*
   * Coefficients
@@ -16,6 +21,8 @@ public:
   double Kp;
   double Ki;
   double Kd;
+
+
 
   /*
   * Constructor
@@ -41,6 +48,10 @@ public:
   * Calculate the total PID error.
   */
   double TotalError();
+
+  void PrintError();
+
+
 };
 
 #endif /* PID_H */
